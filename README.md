@@ -1,83 +1,113 @@
-Notification Service
+# Notification Service
+
 A scalable system to send notifications to users with support for multiple notification types and queue-based processing with automatic retries.
-Features
 
-RESTful API for sending and retrieving notifications
-Support for multiple notification types (email, SMS, in-app)
-Queue-based architecture for asynchronous notification processing
-Automatic retry mechanism for failed notifications
-MongoDB for persistent storage
-Redis for queue management
-Comprehensive error handling and logging
-API documentation
+## Features
 
-Prerequisites
+- RESTful API for sending and retrieving notifications
+- Support for multiple notification types (email, SMS, in-app)
+- Queue-based architecture for asynchronous notification processing
+- Automatic retry mechanism for failed notifications
+- MongoDB for persistent storage
+- Redis for queue management
+- Comprehensive error handling and logging
+- API documentation
 
-Node.js (v14+)
-MongoDB
-Redis
+## Prerequisites
 
-Installation
+- Node.js (v14+)
+- MongoDB
+- Redis
 
-Clone the repository
-bashgit clone <repository-url>
-cd notification-service
+## Installation
 
-Install dependencies
-bashnpm install
+1. Clone the repository
+   ```bash
+   git clone <repository-url>
+   cd notification-service
+   ```
 
-Create a .env file in the project root and add the following:
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/notification-service
-REDIS_HOST=localhost
-REDIS_PORT=6379
+2. Install dependencies
+   ```bash
+   npm install
+   ```
 
+3. Create a `.env` file in the project root and add the following:
+   ```
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/notification-service
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   ```
 
-Running the Application
-Development Mode
-bashnpm run dev
-Production Mode
-bashnpm start
-API Endpoints
-Send a Notification
+## Running the Application
+
+### Development Mode
+```bash
+npm run dev
+```
+
+### Production Mode
+```bash
+npm start
+```
+
+## API Endpoints
+
+### Send a Notification
+```
 POST /notifications
+```
 Request Body:
-json{
+```json
+{
   "userId": "123",
   "type": "email",
   "message": "Hello, this is a test notification!"
 }
-Get User Notifications
+```
+
+### Get User Notifications
+```
 GET /users/:id/notifications
-Get a Specific Notification
+```
+
+### Get a Specific Notification
+```
 GET /notifications/:id
-For complete API documentation, visit /api-docs when the server is running.
-Architecture
-Components
+```
 
-API Layer: Express.js application handling HTTP requests
-Storage Layer: MongoDB for storing notification data
-Queue Layer: Bull/Redis for handling asynchronous notification processing
-Service Layer: Notification processors for different types (email, SMS, in-app)
+For complete API documentation, visit `/api-docs` when the server is running.
 
-Flow
+## Architecture
 
-Client sends a notification request to the API
-API validates the request and stores the notification in MongoDB with status "queued"
-API adds the notification to the processing queue and returns a success response
-Queue processor picks up the notification and attempts to send it
-If successful, the notification status is updated to "sent"
-If failed, the system will retry up to the configured maximum attempts
-After all retry attempts are exhausted, the notification is marked as "failed"
+### Components
 
-Retry Mechanism
+1. **API Layer**: Express.js application handling HTTP requests
+2. **Storage Layer**: MongoDB for storing notification data
+3. **Queue Layer**: Bull/Redis for handling asynchronous notification processing
+4. **Service Layer**: Notification processors for different types (email, SMS, in-app)
+
+### Flow
+
+1. Client sends a notification request to the API
+2. API validates the request and stores the notification in MongoDB with status "queued"
+3. API adds the notification to the processing queue and returns a success response
+4. Queue processor picks up the notification and attempts to send it
+5. If successful, the notification status is updated to "sent"
+6. If failed, the system will retry up to the configured maximum attempts
+7. After all retry attempts are exhausted, the notification is marked as "failed"
+
+## Retry Mechanism
+
 Failed notifications are automatically retried according to the following configuration:
+- Maximum retry attempts: 3
+- Retry strategy: Exponential backoff
+- Initial retry delay: 10 seconds
 
-Maximum retry attempts: 3
-Retry strategy: Exponential backoff
-Initial retry delay: 10 seconds
+## Project Structure
 
-Project Structure
+```
 notification-service/
 ├── docs/                  # API documentation
 ├── src/
@@ -94,22 +124,29 @@ notification-service/
 ├── .gitignore
 ├── package.json
 └── README.md
-Testing
-bashnpm test
-Assumptions
+```
 
-Authentication and authorization are not implemented in this demo but should be added in a production environment
-The notification senders are simulated and should be replaced with actual implementations (e.g., Nodemailer, Twilio)
-Rate limiting is not implemented but should be considered for production
-In a real-world scenario, you might want to add more detailed logs and monitoring
-For a production deployment, consider containerizing the application with Docker
+## Testing
 
-Future Improvements
+```bash
+npm test
+```
 
-Add user authentication and authorization
-Implement real notification senders (email, SMS providers)
-Add rate limiting
-Add more detailed metrics and monitoring
-Implement webhooks for notification status updates
-Add support for scheduled notifications
-Add support for templates
+## Assumptions
+
+1. Authentication and authorization are not implemented in this demo but should be added in a production environment
+2. The notification senders are simulated and should be replaced with actual implementations (e.g., Nodemailer, Twilio)
+3. Rate limiting is not implemented but should be considered for production
+4. In a real-world scenario, you might want to add more detailed logs and monitoring
+5. For a production deployment, consider containerizing the application with Docker
+
+## Future Improvements
+
+- Add user authentication and authorization
+- Implement real notification senders (email, SMS providers)
+- Add rate limiting
+- Add more detailed metrics and monitoring
+- Implement webhooks for notification status updates
+- Add support for scheduled notifications
+- Add support for templates
+
