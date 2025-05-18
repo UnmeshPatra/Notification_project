@@ -40,7 +40,32 @@ A scalable system to send notifications to users with support for multiple notif
    REDIS_PORT=6379
    ```
 
+   
+
 ## Running the Application
+
+## Redis Setup
+
+This application requires Redis for the notification queue system. Make sure Redis is running before starting the application.
+
+### Local Redis Setup
+
+1. Install Redis:
+   - On macOS: `brew install redis`
+   - On Ubuntu/Debian: `sudo apt-get install redis-server`
+   - On Windows: Download from [Redis for Windows](https://github.com/tporadowski/redis/releases)
+
+2. Start Redis server:
+   - On macOS/Linux: `redis-server`
+   - On Windows: Start the Redis service
+
+### Using Docker for Redis
+
+Alternatively, you can run Redis in Docker:
+
+```bash
+docker run -d -p 6379:6379 --name redis-server redis:latest
+```
 
 
 #### You can see more detailed information in the API documentation
