@@ -114,11 +114,11 @@ notification-service/
 │   ├── models/            # Database models
 │   │   └── notification.js
 │   ├── queue/             # Queue configuration
-│   │   └── notificationQueue.js
+│   │   └── notificationqueue.js
 │   ├── routes/            # API routes
 │   │   └── notification.js
-│   ├── services/          # Business logic
-│   │   └── notificationProcessor.js
+│   ├── workers/          # Business logic
+│   │   └── notificationworkers.js
 │   └── app.js            # Application entry point
 ├── .env                   # Environment variables
 ├── .gitignore
