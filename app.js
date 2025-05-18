@@ -12,10 +12,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/notification-service';
 
+// API Docs URL
+const apiDocUrl = "https://drive.google.com/file/d/15TOrs8kbjnlH4AYEhhBHkEbFEz5QVoEp/view?usp=sharing";
+
 // Middleware
 app.use(express.json());
 
-
+// API Documentation middleware
+app.use('/api-docs', express.static('docs'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -37,7 +41,7 @@ mongoose.connect(MONGODB_URI)
     // Start the server
     app.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);
-      // console.log(`📚 API Documentation available at http://localhost:${PORT}/api-docs`);
+      console.log(`📚 API Documentation available at ${apiDocUrl}`);
     });
   })
   .catch(err => {
@@ -56,7 +60,7 @@ const shutdown = async () => {
     
     // Close MongoDB connection
     await mongoose.connection.close();
-    
+    console.log('✅ MongoDB connection closed');
     
     console.log('👋 Server shutdown complete');
     process.exit(0);
