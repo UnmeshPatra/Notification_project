@@ -42,14 +42,12 @@ A scalable system to send notifications to users with support for multiple notif
 
 ## Running the Application
 
-### Development Mode
-```bash
-npm run dev
-```
+
+#### You can see more detailed information in the API documentation
 
 ### Production Mode
 ```bash
-npm start
+node app.js
 ```
 
 ## API Endpoints
